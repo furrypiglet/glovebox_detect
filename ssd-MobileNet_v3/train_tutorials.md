@@ -8,7 +8,7 @@
 
 通常可以在项目主页GitHub上找到，而`TensorFlow-API`中直接提供了相关文档`.../models/research/object_detection/g3doc`，可以跳转下载链接。此处打开`tf1_detection_zoo.md`，可以选择所需要的预训练模型，这里选择`ssdmobilenet v3 small coco`。
 
-![image-20240428153639327](typora-user-images\image-20240428153639327.png)
+<img src="typora-user-images\image-20240428153639327.png" alt="image-20240428153639327" style="zoom:80%;" />
 
 ## 搭建环境
 
@@ -73,7 +73,7 @@ pip install tensorflow-gpu
      #打开labelimg工具，打开images文件夹，并使用classes.txt初始化类别
      ```
 
-     ![image-20240428163949149](typora-user-images\image-20240428163949149.png)
+     <img src="typora-user-images\image-20240428163949149.png" alt="image-20240428163949149" style="zoom:80%;" />
 
      将保存文件夹地址设置为`labels`，使用鼠标对物体进行锚框，数据集格式设为VOC
 
@@ -83,7 +83,7 @@ pip install tensorflow-gpu
 
 3. 文件夹格式：创建`datesets`文件夹，将`mydata`文件夹移动至其中。再在`datasets`中新建`images`和`labels`文件夹，这两个文件夹内都再新建三个文件夹：训练集`train`、测试集`test`、验证集`val`（可以舍去）。按照7：2：1或者8：2将图像和标签分别放置文件夹`images`和`labels`中（图像与标签位置必须一一对应）
 
-<img src='typora-user-images/文件夹格式.png' style="zoom: 67%;" />
+<img src='typora-user-images/文件夹格式.png' style="zoom: 50%;" />
 
 4. 转换数据集格式（仅限TensorFlow）
 
@@ -92,7 +92,7 @@ pip install tensorflow-gpu
    * 在`models/research/object_detection`路径下，进入虚拟环境运行`xml2csv.py`，生成`train.csv`和`test.csv`两个文件
    * 修改`csv2TFrecord.py`中的类别
 
-<img src="typora-user-images\image-20240428172058539.png" alt="image-20240428172058539" style="zoom: 67%;" />
+<img src="typora-user-images\image-20240428172058539.png" alt="image-20240428172058539" style="zoom: 60%;" />
 
 ​	在`...\object_detection`路径下运行下列命令生成TFrecord文件：
 
