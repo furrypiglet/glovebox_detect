@@ -2,13 +2,13 @@
 
 ## 前言
 
-绝大多数的深度学习视觉检测模型的训练流程大体上是相似的，下面在`Windows平台`是上利用`ssd-MobileNet_v3`模型结合项目作为示例。
+绝大多数的深度学习视觉检测模型的训练流程大体上是相似的，下面在`Windows平台`上利用`ssd-MobileNet_v3`模型结合项目作为示例。
 
 ## 下载预训练模型
 
-通常可以在项目主页GitHub上找到，而`TensorFlow-API`中直接提供了相关文档`.../models/research/object_detection/g3doc`，可以跳转下载链接。此处打开`tf1_detection_zoo.md`，可以选择所需要的预训练模型，这里选择`ssdmobilenet v3 small coco`
+通常可以在项目主页GitHub上找到，而`TensorFlow-API`中直接提供了相关文档`.../models/research/object_detection/g3doc`，可以跳转下载链接。此处打开`tf1_detection_zoo.md`，可以选择所需要的预训练模型，这里选择`ssdmobilenet v3 small coco`。
 
-![image-20240428153639327](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428153639327.png)
+![image-20240428153639327](typora-user-images\image-20240428153639327.png)
 
 ## 搭建环境
 
@@ -43,7 +43,7 @@ pip install tensorflow-gpu
 
 创建系统变量`PYTHONPATH`,将路径添加。
 
-![image-20240428160046212](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428160046212.png)
+<img src="typora-user-images\image-20240428160046212.png" alt="image-20240428160046212" style="zoom: 50%;" />
 
 4.静态库编译（Linux可跳过）
 
@@ -51,7 +51,7 @@ pip install tensorflow-gpu
 
 ## 数据集制作
 
-1. 预处理：统一数据集名称与格式
+1. 预处理：统一数据集名称与格式（可以使用`tools`文件夹中的`mp4Tojpg.py`截取.mp4文件中的图像）
 
 2. 标注：
 
@@ -65,7 +65,7 @@ pip install tensorflow-gpu
 
    * 在`mydata`中创建`classes.txt`，在文档中按顺序输入类别（此后类别输入顺序应保持一致）
 
-     <img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428163242787.png" alt="image-20240428163242787" style="zoom:50%;" />
+     <img src="typora-user-images\image-20240428163242787.png" alt="image-20240428163242787" style="zoom:50%;" />
 
    * ```
      cd .../mydata
@@ -73,28 +73,28 @@ pip install tensorflow-gpu
      #打开labelimg工具，打开images文件夹，并使用classes.txt初始化类别
      ```
 
-     ![image-20240428163949149](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428163949149.png)
+     ![image-20240428163949149](typora-user-images\image-20240428163949149.png)
 
-     将保存文件夹地址设置为`labels`，使用鼠标对物体进行锚框，数据集格式设为VOC。
+     将保存文件夹地址设置为`labels`，使用鼠标对物体进行锚框，数据集格式设为VOC
 
      常见的数据集格式分为三种：yolo格式（.txt)、VOC格式（.xml)、coco格式（.json)。可以通过代码互相转换。
 
      
 
-3. 文件夹格式：分为三个文件夹：训练集`train`、测试集`test`、验证集`val`（可以舍去）。按照7：2：1或者8：2将图像和标签分别放置文件夹中（图像与标签位置必须一一对应）
+3. 文件夹格式：创建`datesets`文件夹，将`mydata`文件夹移动至其中。再在`datasets`中新建`images`和`labels`文件夹，这两个文件夹内都再新建三个文件夹：训练集`train`、测试集`test`、验证集`val`（可以舍去）。按照7：2：1或者8：2将图像和标签分别放置文件夹`images`和`labels`中（图像与标签位置必须一一对应）
 
-<img src="C:\Users\ASUS\Pictures\文件夹格式.png" style="zoom: 67%;" />
+<img src='typora-user-images/文件夹格式.png' style="zoom: 67%;" />
 
 4. 转换数据集格式（仅限TensorFlow）
 
    在tools文件夹中有两个格式转换文件：`xml2csv.py`、`csv2TFrecord.py`
 
-   * 在.../object_detection路径下，进入虚拟环境运行`xml2csv.py`，生成`train.csv`和`test.csv`两个文件
+   * 在`models/research/object_detection`路径下，进入虚拟环境运行`xml2csv.py`，生成`train.csv`和`test.csv`两个文件
    * 修改`csv2TFrecord.py`中的类别
 
-<img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428172058539.png" alt="image-20240428172058539" style="zoom: 67%;" />
+<img src="typora-user-images\image-20240428172058539.png" alt="image-20240428172058539" style="zoom: 67%;" />
 
-​	在`...\object_detection`路径下运行下列命令生成TFRecord文件：
+​	在`...\object_detection`路径下运行下列命令生成TFrecord文件：
 
 ```
 python generate_tfrecord.py --csv_input=images\train.csv --image_dir=images\train --output_path=train.record
@@ -136,7 +136,7 @@ python generate_tfrecord.py --csv_input=images\test.csv --image_dir=images\test 
 
 打开`ssdlite_mobilenet_v3_small_320x320_coco.config`，修改相关参数
 
-<img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240428173738691.png" alt="image-20240428173738691" style="zoom:50%;" />
+<img src="typora-user-images\image-20240428173738691.png" alt="image-20240428173738691" style="zoom:50%;" />
 
 包括输入输出路径、num_classes（物体类别数）、batch_size（每批次训练图像数）、num_steps（训练最大迭代次数）
 
@@ -151,9 +151,9 @@ python model_main.py --pipeline_config_path=training_gloveboxssdlite_mobilenet_v
 
 `model_dir`:生成文件的地址
 
-`num_train_steps`：设置训练步数
+`num_train_steps`：训练迭代次数
 
-`num_eval_steps`：设置评估步数
+`num_eval_steps`：评估迭代次数
 
 ## 导出结果(以下步骤yolo都不需要)
 
@@ -169,7 +169,7 @@ python export_tflite_ssd_graph.py --pipeline_config_path train_xxxxx/training_gl
 ### 适配dnn
 
 使用cv2::dnn模块时需要对导出模型的.pdtxt文件进行转化，将tf的模型结构转化为opencv的结构。（需安装opencv
-在opencv安装路径\opencv\sources\samples\dnn 中执行：
+在opencv安装路径`\opencv\sources\samples\dnn` 中执行：
 
 ```
 python tf_text_graph_ssd.py  --input C:/models/research/object_detection/inference_graph/tflite_graph.pb --config C:/models/research/object_detection/train_glovebox/ssdlite_mobilenet_v3_small_320x320_coco.config --output C:/models/research/object_detection/inference_graph/ssdmobilenetv3small.pbtxt
